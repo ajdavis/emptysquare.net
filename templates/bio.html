@@ -1,0 +1,34 @@
+{% extends 'emptysquare_common.html' %}
+{% block head %}
+        <script type="text/javascript">
+$(document).ready(function(){
+    $('#imageContainer').click(function() {
+		document.location.href = document.location.href.replace(/(http:\/\/.*?)(\/.+\/)/, "$1" + "{{ reverse_url('contact') }}");
+		return false;
+    });
+});
+        </script>
+{% end %}
+{% block body %}
+	<div id="imageTitle"></div>
+	<div id="imageContainer" style="padding-left: 15px; padding-top:10px; text-align:left; font-weight: bold">
+		<div style="float:right; margin:10px;"><img src="/static/images/me.jpg" width="250px" height="298px" /></div>
+		<p class="bio">
+			A. Jesse Jiryu Davis is a portrait and event photographer based in New York City.
+			
+			As a self-taught photographer, he began taking assignments while refining his skills
+			at the International Center of Photography, where he became proficient with digital and traditional processes.
+		</p>
+		<p class="bio">
+			Jesse has covered events, created editorial portraits, and photographed landscapes for New York Magazine, The Village Voice,
+			Time Out New York, Meditate NYC, AT Magazine in Germany, and the Village Zendo Journal.  Currently, he is documenting the New
+			York Zen community and the changing Lower East Side.
+		</p>
+		<p class="bio">
+			In past lives, Jesse earned a BA in Computer Science from Oberlin College, and trained for a year in a Zen monastery.
+		</p>
+		<div id="imageDescription" style="padding-top:25px; font-size:large">
+			<a href="{{ reverse_url('contact') }}">Contact</a>
+		</div>
+	</div>
+{% end %}

@@ -1,0 +1,201 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {
+	font: 100% Helvetica, Verdana, Arial, sans-serif;
+	background: #fff;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+}
+
+p {
+	margin-bottom: 20px;
+	line-height:115%;
+}
+
+a {
+	text-decoration:none;
+	font-weight:bold;
+	color:inherit;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+h1 {
+	margin-bottom:0px;
+	font-size: medium;
+}
+
+
+p.bio {
+	text-align:justify;
+	line-height: 133%;
+}
+
+p.bio a {
+	color:#900000;
+}
+
+#gallery_header {
+	float:left;
+	clear:both;
+	width:100%;
+	text-transform:capitalize;
+	font-size:16pt;
+	margin-top:15px;
+}
+
+#gallery_container {
+	width: 850px;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	text-align: left; /* this overrides the text-align: center on the body element. */
+	clear:both;
+	float:none;
+}
+
+#gallery_header a {
+}
+
+#gallery_title {
+	text-transform: capitalize;
+}
+
+#gallery_header a h1:hover {
+	text-decoration:underline;
+	clear:both;
+}
+
+#gallery_header a h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 0 0 5px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+}
+
+#gallery_header_title {
+	float:left;
+	margin-left:3px;
+	margin-bottom:3px;
+	clear:both;
+}
+
+#gallery_header_hr {
+	float:left;
+	margin:0;
+	padding:0;
+	clear:both;
+	width:700px;
+	text-align: left;/*this will align it for IE*/
+	margin: 0 auto 0 0; /*this will align it left for Mozilla*/
+}
+
+#gallery_header_hr hr {
+	margin:2px;
+	margin-bottom: 8px;
+	padding:0;
+	color: #eeeeee;
+	background-color: #eeeeee;
+	height: 2px;
+	border: none 0;
+}
+
+#gallery_categories {
+	margin: 0px;
+	text-align:left;
+	float:left;
+	width: 160px;
+	margin-left: 15px;
+}
+
+#gallery_body {
+	float:left;
+	clear:both;
+}
+
+ul.set_list {
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+ }
+
+ul.set_list a {
+	font-weight:inherit;
+}
+
+#imageTitle, #imageContainer, #imageDescription, #navContainer {
+	text-align:center;
+	clear:both;
+	margin: auto;
+	width:655px;
+}
+
+/* navContainer has div#nav and div#share; center #nav and move #share to the left.
+  #share is about 70px wide, imageContainer is 650.
+*/
+#nav {
+	width:75px;
+	margin-left:230px;
+	float:left;
+}
+
+#share {
+	float:left;
+	margin-left:2px;
+}
+
+#imageDescription {
+}
+
+#imageTitle {
+	font-weight:bold;
+}
+
+#imageContainer {
+	min-height: 700px;
+	cursor:pointer;
+}
+
+#imageContainer img {
+}
+
+#imageDescription, #imageTitle {
+	color:#aaaaaa;
+	font-size:8pt;
+}
+
+table.contact td {
+	padding-bottom:15px;
+}
+
+a.navCtrl {
+    cursor:pointer;
+}
+
+a.set {
+	padding-left: 13px;
+}
+
+a.active {
+	background: url(/static/images/goright.gif) center left no-repeat;
+    padding-left: 13px;
+}
+
+span.navCtrl {
+    font-family:monospace;
+}
+
+span#navIndex {
+	text-align:center;
+    font-family:monospace;
+}
+
+h2.set {
+	color: #900000;
+	font-size:12pt;
+	font-weight:normal;
+	padding-left:13px;
+}
+
+.admin {
+}
