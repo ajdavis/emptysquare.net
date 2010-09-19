@@ -44,7 +44,7 @@ p.bio a {
 	clear:both;
 	width:100%;
 	text-transform:capitalize;
-	font-size:16pt;
+	font-size:14pt;
 	margin-top:15px;
 }
 
@@ -85,7 +85,7 @@ p.bio a {
 	margin:0;
 	padding:0;
 	clear:both;
-	width:700px;
+	width:825px;
 	text-align: left;/*this will align it for IE*/
 	margin: 0 auto 0 0; /*this will align it left for Mozilla*/
 }
@@ -100,17 +100,16 @@ p.bio a {
 	border: none 0;
 }
 
-#gallery_categories {
+#gallery_sets {
 	margin: 0px;
 	text-align:left;
 	float:left;
 	width: 160px;
-	margin-left: 15px;
+	margin-right: 10px;
 }
 
 #gallery_body {
 	float:left;
-	clear:both;
 }
 
 ul.set_list {
@@ -140,8 +139,8 @@ ul.set_list a {
 }
 
 #share {
-	float:left;
-	margin-left:2px;
+	float:right;
+	margin-right:25px;
 }
 
 #imageDescription {

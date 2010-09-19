@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 import logging
 import simplejson
@@ -93,9 +94,9 @@ class ContactHandler(tornado.web.RequestHandler):
             next_set_slug=emptysquare_collection()['set'][0]['slug']
         )
 
-settings = {
-    "static_path": os.path.join(os.path.dirname(__file__), "static"),
-}
+#settings = {
+#    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+#}
 
 application = tornado.web.Application([
     URLSpec(r'/', MainHandler),
@@ -103,13 +104,12 @@ application = tornado.web.Application([
     URLSpec(r'/photography/bio/', BioHandler, name='bio'),
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
     URLSpec(r'/photography/(\S+)/', SetHandler, name='set'),
-], **settings)
+])#, **settings)
 
 if __name__ == "__main__":
-    http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(80)
-    print 'listening on port 80'
+    http_server = tornado.httpserver.HTTPServer(application, xheaders=True)
+    print "Listening on port 8000"
+    http_server.listen(8000)
     logging.info('logger up')
-    # TODO: don't autoreload in production
-    tornado.autoreload.start() 
+    #tornado.autoreload.start() 
     tornado.ioloop.IOLoop.instance().start()

@@ -15,13 +15,28 @@ $(document).ready(function(){
 });
 	</script>
 {% end %}
+{% block share %}
+	<a id="tweet_button"><img style="border:none" src="/static/images/twitter_16.png" /></a>
+	<div id="fb-root"></div>
+	<script>
+	  window.fbAsyncInit = function() {
+		FB.init({appId: 'your app id', status: true, cookie: true,
+				 xfbml: true});
+	  };
+	  (function() {
+		var e = document.createElement('script'); e.async = true;
+		e.src = document.location.protocol +
+		  '//connect.facebook.net/en_US/all.js';
+		document.getElementById('fb-root').appendChild(e);
+	  }());
+	</script>
+
+	<iframe id="fb_like_button" src="" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:225px; height:35px;" allowTransparency="true"></iframe>
+{% end %}
 {% block body %}
 		<div>
 			<div id="navContainer">
-				<div id="share">
-					<a id="tweet_button"><img style="border:none" src="/static/images/twitter_16.png" /></a>
-					<iframe id="fb_like_button" src="" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:55px; height:24px; text-align:right" allowTransparency="true"></iframe>
-				</div>
+				
 			</div>
 			<div id="nav">
 				<a class="navCtrl" id="navLeft"><img src="/static/images/blank.gif" height="9px" width="14px" /></a>&nbsp;&nbsp;&nbsp;<span id="navIndex">1</span>&nbsp;&nbsp;&nbsp;<a class="navCtrl" id="navRight"><img src="/static/images/goright.gif" height="9px" width="14px" /></a>

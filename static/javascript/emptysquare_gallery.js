@@ -50,7 +50,7 @@ function navigateToImageId(next_set_url) {
 	setImage(photos['photo'][imageId].image);
 	
 	var urlencoded_location = $.URLEncode(document.location.href);
-	$("#fb_like_button").attr('src', 'http://www.facebook.com/plugins/like.php?href=' + urlencoded_location + '&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21');
+	$("#fb_like_button").attr('src', 'http://www.facebook.com/plugins/like.php?href=' + urlencoded_location + '&amp;layout=standard&amp;show_faces=false&amp;width=225&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35');
 	
 	$("#tweet_button").attr(
 		'href',
