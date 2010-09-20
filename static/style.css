@@ -3,15 +3,16 @@
 
 body {
 	font: 100% Helvetica, Verdana, Arial, sans-serif;
+	letter-spacing: 0.1em;
 	background: #fff;
 	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
 	padding: 0;
 	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	line-height:115%;
 }
 
 p {
 	margin-bottom: 20px;
-	line-height:115%;
 }
 
 a {
@@ -26,7 +27,7 @@ a:hover {
 
 h1 {
 	margin-bottom:0px;
-	font-size: medium;
+	font-size: ;
 }
 
 
@@ -60,7 +61,7 @@ p.bio a {
 }
 
 #gallery_title {
-	text-transform: capitalize;
+	letter-spacing:0.1em;
 }
 
 #gallery_header a h1:hover {
@@ -104,8 +105,7 @@ p.bio a {
 	margin: 0px;
 	text-align:left;
 	float:left;
-	width: 160px;
-	margin-right: 10px;
+	width: 180px;
 }
 
 #gallery_body {
@@ -133,7 +133,7 @@ ul.set_list a {
   #share is about 70px wide, imageContainer is 650.
 */
 #nav {
-	width:75px;
+	width:85px;
 	margin-left:230px;
 	float:left;
 }
@@ -187,10 +187,11 @@ span.navCtrl {
 span#navIndex {
 	text-align:center;
     font-family:monospace;
+	letter-spacing:normal;
+	line-height:normal;
 }
 
 h2.set {
-	color: #900000;
 	font-size:12pt;
 	font-weight:normal;
 	padding-left:13px;

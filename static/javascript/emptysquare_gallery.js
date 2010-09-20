@@ -49,7 +49,14 @@ function navigateToImageId(next_set_url) {
     
 	setImage(photos['photo'][imageId].image);
 	
-	var urlencoded_location = $.URLEncode(document.location.href);
+	// Update the URL for the Facebook Like button -- the like button ignores
+	// everything after the #, so change the URL from something like
+	// http://emptysquare.net/photography/fritz-christina/#1/
+	// to:
+	// http://emptysquare.net/photography/fritz-christina/1/
+	var urlencoded_location = $.URLEncode(document.location.href.split('#')[0]
+										  + (imageId+1)
+										  + '/');
 	$("#fb_like_button").attr('src', 'http://www.facebook.com/plugins/like.php?href=' + urlencoded_location + '&amp;layout=standard&amp;show_faces=false&amp;width=225&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35');
 	
 	$("#tweet_button").attr(

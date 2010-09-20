@@ -74,6 +74,42 @@ class SetHandler(tornado.web.RequestHandler):
             next_set_slug=next_set_slug
         )
 
+class PhotoForFacebookHandler(tornado.web.RequestHandler):
+    """
+    emptysquare.js script sets the FB like button's URL to a hashless URL:
+    if visitor is at http://emptysquare.net/photography/fritz-christina/#1/,
+    script sets like button's URL to http://emptysquare.net/photography/fritz-christina/1/.
+    
+    This handler responds to FB's request for that page, and to human's inbound
+    clicks from Facebook if a person clicks on someone's activity, i.e.
+    "Joe likes A. Jesse Jiryu Davis photography | Fritz & Christina on
+    emptysquare.net."
+    """
+    def get(self, slug, photo_index):
+        if 'facebookexternalhit' in self.request.headers['User-Agent']:
+            # A visitor to my site has clicked "Like", so FB is scraping the
+            # hashless URL
+            sets = emptysquare_collection()['set']
+            current_set_index = index_for_set_slug(slug)
+            return self.render(
+                "templates/photo_for_facebook.html",
+                sets=sets,
+                current_slug=slug,
+                current_set_index=current_set_index,
+                photos=emptysquare_set_photos(slug),
+                photo_index=int(photo_index)
+            )
+        else:
+            # A visitor has clicked someone's "like" activity on Facebook.com,
+            # and is inbound to a hashless URL -- redirect them to the
+            # human-readable page
+            self.redirect(
+                '%s#%s/' % (
+                    self.reverse_url('set', slug),
+                    photo_index
+                )
+            )
+
 class BioHandler(tornado.web.RequestHandler):
     def get(self):
         self.render(
@@ -103,6 +139,7 @@ application = tornado.web.Application([
     URLSpec(r'/photography/', PhotographyHandler, name='photography'),
     URLSpec(r'/photography/bio/', BioHandler, name='bio'),
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
+    URLSpec(r'/photography/(\S+)/(\d+)/', PhotoForFacebookHandler, name='photo_for_facebook'),
     URLSpec(r'/photography/(\S+)/', SetHandler, name='set'),
 ])#, **settings)
 
