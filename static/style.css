@@ -47,6 +47,8 @@ p.bio a {
 	text-transform:capitalize;
 	font-size:14pt;
 	margin-top:15px;
+	border-bottom: 1px solid #cccccc;
+	height: 28px;
 }
 
 #gallery_container {
@@ -79,26 +81,6 @@ p.bio a {
 	margin-left:3px;
 	margin-bottom:3px;
 	clear:both;
-}
-
-#gallery_header_hr {
-	float:left;
-	margin:0;
-	padding:0;
-	clear:both;
-	width:825px;
-	text-align: left;/*this will align it for IE*/
-	margin: 0 auto 0 0; /*this will align it left for Mozilla*/
-}
-
-#gallery_header_hr hr {
-	margin:2px;
-	margin-bottom: 8px;
-	padding:0;
-	color: #eeeeee;
-	background-color: #eeeeee;
-	height: 2px;
-	border: none 0;
 }
 
 #gallery_sets {

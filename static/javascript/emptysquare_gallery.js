@@ -16,7 +16,10 @@ function navigate(delta, next_set_url) {
 function navigateToImageId(next_set_url) {
     var blank = '<img src="/static/images/blank.gif" height="9px" width="14px" />';
 	
-    // clamp imageId to [0, photos.length)
+    /**
+	 * Clamp imageId to [0, photos.length), set URL's hash anchor, or maybe
+	 * navigate to next set
+	 */
     if (imageId < 0) {
 		imageId = 0;
 	} else if (imageId < photos['photo'].length) {
@@ -32,37 +35,59 @@ function navigateToImageId(next_set_url) {
 		return false;
 	}
     
-    // Show or hide the left and right arrows depending on current position in
-    // list of photos
+    /**
+	 *  Show or hide the left and right arrows depending on current position in
+     * list of photos
+	 */
     if (imageId == 0) $("#navLeft").html(blank);
     else $("#navLeft").html('<img src="/static/images/goleft.gif" height="9px" width="14px" />');
     
     if (imageId == photos['photo'].length - 1) $("#navRight").html(blank);
     else $("#navRight").html('<img src="/static/images/goright.gif" height="9px" width="14px" />');
     
-    // Update the displayed image id
+    /**
+	 * Update the displayed image id
+	 */
     $("#navIndex").html("" + (imageId + 1));
     
 	// I've decided descriptions are superfluous
     //$("#imageDescription").html(photos['photo'][imageId].description);
 	//$("#imageTitle").html(photos['photo'][imageId].title);
     
+	/**
+	 * Show the image
+	 */
 	setImage(photos['photo'][imageId].image);
 	
-	// Update the URL for the Facebook Like button -- the like button ignores
-	// everything after the #, so change the URL from something like
-	// http://emptysquare.net/photography/fritz-christina/#1/
-	// to:
-	// http://emptysquare.net/photography/fritz-christina/1/
-	var urlencoded_location = $.URLEncode(document.location.href.split('#')[0]
-										  + (imageId+1)
-										  + '/');
-	$("#fb_like_button").attr('src', 'http://www.facebook.com/plugins/like.php?href=' + urlencoded_location + '&amp;layout=standard&amp;show_faces=false&amp;width=225&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=35');
+	/** Update the URL for the Facebook Like button -- the like button ignores
+	 * everything after the #, so change the URL from something like
+	 * http://emptysquare.net/photography/fritz-christina/#1/
+	 * to:
+	 * http://emptysquare.net/photography/fritz-christina/1/
+	 */
+	$('#open_graph_image_property').attr('content', photos['photo'][imageId]['source']);
 	
-	$("#tweet_button").attr(
-		'href',
-		'http://twitter.com/home?status=' + urlencoded_location
+	var location = document.location.href.split('#')[0] + (imageId+1) + '/';
+	
+	$('#fb_like_button_container').empty().append(
+		'<fb:like href="'
+		+ location
+		+ '" show_faces="false" width="225" font="arial"></fb:like>'
 	);
+	
+	// If Facebook's Javascript SDK is loaded, make it re-parse the Like button
+	// FBXML.  Else, wait for the FB SDK to load; it'll parse the FBXML then.
+	if (typeof(FB) != 'undefined') {
+		FB.XFBML.parse(document.getElementById('fb_like_button_container'));
+	}
+	
+	
+	
+	
+	// $("#tweet_button").attr(
+	// 	'href',
+	// 	'http://twitter.com/home?status=' + location
+	// );
 	
     return false;
 }

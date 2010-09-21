@@ -70,7 +70,7 @@ class SetHandler(tornado.web.RequestHandler):
             sets=sets,
             current_slug=slug,
             current_set_index=current_set_index,
-            photos=simplejson.dumps(emptysquare_set_photos(slug)),
+            photos=emptysquare_set_photos(slug),
             next_set_slug=next_set_slug
         )
 
@@ -130,6 +130,10 @@ class ContactHandler(tornado.web.RequestHandler):
             next_set_slug=emptysquare_collection()['set'][0]['slug']
         )
 
+settings = {}
+
+# Uncomment in order to debug the Tornado web app standalone, without a static
+# web server like Nginx fronting it
 #settings = {
 #    "static_path": os.path.join(os.path.dirname(__file__), "static"),
 #}
@@ -141,7 +145,7 @@ application = tornado.web.Application([
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
     URLSpec(r'/photography/(\S+)/(\d+)/', PhotoForFacebookHandler, name='photo_for_facebook'),
     URLSpec(r'/photography/(\S+)/', SetHandler, name='set'),
-])#, **settings)
+], **settings)
 
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application, xheaders=True)
