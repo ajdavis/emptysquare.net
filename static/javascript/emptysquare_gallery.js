@@ -12,19 +12,11 @@ function parse_imageId(next_set_url) {
 		// URL's image index is 1-based, our internal index is 0-based
 		imageId = parseInt(fragment.replace(/\//g, '')) - 1;
 		if (imageId < 0 || isNaN(imageId)) imageId = 0;
-		if (imageId >= photos['photo'].length) {
-			document.location.href = next_set_url;
-			return false;
-		}
 	} else {
 		imageId = 0;
 	}
 	
 	desired_fragment = '' + (imageId+1) + '/';
-	if (desired_fragment != fragment) {
-		$.bbq.pushState('#' + desired_fragment);
-		return false;
-	}
 	
 	return true;
 }
@@ -43,38 +35,29 @@ function navigateToImageId(next_set_url) {
 	 * we use 1-based indices in the URL
 	 */
 	if (imageId == 0) {
-		$("#navLeft").html(blank).unbind('click');
+		$("#navLeft").html(blank).removeAttr('href');
 	} else {
 		var navLeftHref = '#' + imageId + '/';
 		
 		// See http://benalman.com/code/projects/jquery-bbq/examples/fragment-advanced/
 		$("#navLeft")
 		.html('<img src="/static/images/goleft.gif" height="9px" width="14px" />')
-		.unbind()
-		.attr('href', navLeftHref)
-		.click(function(e) {
-			$.bbq.pushState(navLeftHref);
-			return false;
-		});
+		.attr('href', navLeftHref);
 	}
 	
+	var navRightHref = null;
 	if (imageId >= photos['photo'].length - 1) {
-		$("#navRight").html(blank).unbind('click');
+		navRightHref = next_set_url;
+		$("#navRight").html(blank);
 	} else {
-		var navRightHref = '#' + (imageId+2) + '/';
+		navRightHref = '#' + (imageId+2) + '/';
 		
-		$("#navRight")
-		.html('<img src="/static/images/goright.gif" height="9px" width="14px" />')
-		.unbind('click')
-		.attr('href', navRightHref)
-		.click(function(e) {
-			$.bbq.pushState(navRightHref);
-			return false;
-		});
-		
-		// Clicking the image container has same effect as right arrow
-		$("#imageContainer").attr('href', navRightHref);
+		$("#navRight").html('<img src="/static/images/goright.gif" height="9px" width="14px" />');
 	}
+	
+	$("#navRight").attr('href', navRightHref);
+	// Clicking the image container has same effect as right arrow
+	$("#imageContainer a").attr('href', navRightHref);
 	
 	/**
 	 * Update the displayed image id
@@ -124,7 +107,7 @@ function navigateToImageId(next_set_url) {
  * @param image:	An Image object
  */
 function setImage(image) {
-	$("#imageContainer").empty().append(image);
+	$("#imageContainer a").empty().append(image);
 }
 
 /* Preload all photos in the photos array
@@ -156,8 +139,15 @@ function preloadImage(preload_image_id, onload_function) {
  * @param next_set_url: Where to go after this page
  */
 function onReady(set_name, photos, next_set_url) {
+	// Order is critical here
+	
+	// From http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
+	$(window).bind('hashchange', function(e) {
+		navigateToImageId(next_set_url);
+	})
+	
 	// Set the global imageId
-	if ( ! parse_imageId(next_set_url)) return;
+	parse_imageId(next_set_url);
 	
 	// Load current image first to maximize speed, then load remaining photos
 	preloadImage(imageId, function() {
@@ -168,11 +158,6 @@ function onReady(set_name, photos, next_set_url) {
 			}
 		}
 	});
-	
-	// From http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
-	$(window).bind('hashchange', function(e) {
-		navigateToImageId(next_set_url);
-	})
 	
 	// Since the event is only triggered when the hash changes, we need to trigger
 	// the event now, to handle the hash the page may have loaded with.

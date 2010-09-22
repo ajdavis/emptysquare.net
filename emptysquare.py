@@ -131,13 +131,9 @@ class ContactHandler(tornado.web.RequestHandler):
             next_set_slug=emptysquare_collection()['set'][0]['slug']
         )
 
-settings = {}
-
-# Uncomment in order to debug the Tornado web app standalone, without a static
-# web server like Nginx fronting it
-#settings = {
-#    "static_path": os.path.join(os.path.dirname(__file__), "static"),
-#}
+settings = {
+    "static_path": os.path.join(os.path.dirname(__file__), "static"),
+}
 
 application = tornado.web.Application([
     URLSpec(r'/', MainHandler),
