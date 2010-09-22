@@ -97,7 +97,7 @@ class PhotoForFacebookHandler(tornado.web.RequestHandler):
                 current_slug=slug,
                 current_set_index=current_set_index,
                 photos=emptysquare_set_photos(slug),
-		# Remember that the photo index comes in 1-indexed
+                # Remember that the photo index comes in 1-indexed
                 photo_index=int(photo_index)-1
             )
         else:
