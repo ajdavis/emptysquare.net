@@ -73,6 +73,21 @@ function navigateToImageId(next_set_url) {
 	 */
 	setImage(photos['photo'][imageId].image);
 	
+	/** Update the URL for the Tweet Button -- change the URL from something like
+	 * http://emptysquare.net/photography/fritz-christina/#1/
+	 * to:
+	 * http://emptysquare.net/photography/fritz-christina/1/
+	 */
+	var location = document.location.href.split('#')[0] + (imageId+1) + '/';
+	var tweet_button = $('#tweet_button_container');
+	
+	tweet_button.html(
+	'<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jessejiryudavis" data-url="'
+	+ document.location.href
+	+ '" data-counturl="'
+	+ document.location.href
+	+ '">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>'
+	);
 	/** Update the URL for the Facebook Like button -- the like button ignores
 	 * everything after the #, so change the URL from something like
 	 * http://emptysquare.net/photography/fritz-christina/#1/
@@ -80,8 +95,6 @@ function navigateToImageId(next_set_url) {
 	 * http://emptysquare.net/photography/fritz-christina/1/
 	 */
 	$('#open_graph_image_property').attr('content', photos['photo'][imageId]['source']);
-	
-	var location = document.location.href.split('#')[0] + (imageId+1) + '/';
 	
 	$('#fb_like_button_container').empty().append(
 		'<fb:like href="'

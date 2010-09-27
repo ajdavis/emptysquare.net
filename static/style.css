@@ -122,7 +122,10 @@ ul.set_list a {
 
 #share {
 	float:right;
-	margin-right:25px;
+}
+
+#tweet_button_container, #fb_like_button_container {
+	float:right;
 }
 
 #imageDescription {
