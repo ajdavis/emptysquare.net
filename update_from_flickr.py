@@ -13,6 +13,7 @@ import re
 import simplejson
 import flickrapi
 import argparse # Python 2.7 module
+from xml.dom import minidom
 
 api_key = '24b43252c30181f08bd549edbb3ed394'
 
@@ -63,10 +64,73 @@ class JSONFlickr(object):
         
         return f
 
+def write_sitemap(prefix, sets, set_slug2photos, sitemap_filename):
+    """
+    Write a Google-compatible sitemap, like so:
+    
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:image="http://www.sitemaps.org/schemas/sitemap-image/1.1"
+      xmlns:video="http://www.sitemaps.org/schemas/sitemap-video/1.1">
+      <url> 
+        <loc>http://www.example.com/foo.html</loc> 
+        <image:image>
+           <image:loc>http://example.com/image.jpg</image:loc> 
+        </image:image>
+      </url>
+    </urlset>
+    
+    sets is like:
+    
+    [{'slug':slug, ...}, ... ]
+    
+    set_slug2photos is like:
+    
+    {'slug': {'id':'1234', 'photo':[{'title':title, 'source':url, ...}, ...], ...}, ...}
+    
+    @param prefix:              The first part of photo set URLs, e.g., 'http://emptysquare.net/photography'
+    @param sets:                The Flickr photo sets' info, as JSON dictionary
+    @param set_slug2photos:     A map: slug => individual set's JSON dictionary
+    @param sitemap_filename:    A string, the filename in which to write the XML
+    """
+    document = minidom.Document()
+    
+    def create_and_append(parent, node_name):
+        node = document.createElement(node_name)
+        parent.appendChild(node)
+        return node
+    
+    urlset = create_and_append(document, 'urlset')
+    urlset.setAttribute("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
+    urlset.setAttribute("xmlns:image", "http://www.sitemaps.org/schemas/sitemap-image/1.1")
+    # Uncomment if for some reason you ever include a video link
+    #urlset.setAttribute("xmlns:video", "http://www.sitemaps.org/schemas/sitemap-video/1.1")
+    
+    for _set in sets:
+        url = create_and_append(urlset, 'url')
+        
+        loc = create_and_append(url, 'loc')
+        
+        # Construct URL like http://emptysquare.net/photography/homeless-shelters/1/
+        loc.appendChild(document.createTextNode((
+                prefix + _set['slug'] if prefix.endswith('/') else prefix + '/' + _set['slug']
+            ) + '/1/'
+        ))
+        
+        if _set['slug'] in set_slug2photos:
+            photos = set_slug2photos[_set['slug']].get('photo')
+            if photos:
+                source = photos[0]['source']
+                image_image = create_and_append(url, 'image:image')
+                image_loc = create_and_append(image_image, 'image:loc')
+                image_loc.appendChild(document.createTextNode(source))
+    
+    with open(sitemap_filename, 'w') as f:
+        f.write(document.toprettyxml(indent="  ", encoding="UTF-8"))
+
 def main(flickr_username, collection_name):
     json_flickr = JSONFlickr(api_key)
     
-    print('Getting user id...')
+    print('Getting user id')
     user_id = json_flickr.people_findByUsername(
         username=flickr_username, format="json"
     )['user']['nsid']
@@ -86,12 +150,13 @@ def main(flickr_username, collection_name):
         raise Exception("Couldn't find Flickr collection named %s" % repr(collection_name))
     
     sets = []
-    for set in emptysquare_collection['set']:
-        slug = slugify(set['title'])
-        set['slug'] = slug
+    set_slug2photos = {}
+    for _set in emptysquare_collection['set']:
+        slug = slugify(_set['title'])
+        _set['slug'] = slug
         fname = '%s.set.json' % slug
-        print('Caching photoset %s in file %s' % (repr(set['title']), repr(fname)))
-        photos = json_flickr.photosets_getPhotos(photoset_id=set['id'])['photoset']
+        print('Caching photoset %s in file %s' % (repr(_set['title']), repr(fname)))
+        photos = json_flickr.photosets_getPhotos(photoset_id=_set['id'])['photoset']
         
         # Add image URLs to the photo info returned by photosets_getPhotos()
         for photo in photos['photo']:
@@ -113,9 +178,15 @@ def main(flickr_username, collection_name):
         
         with open(fname, 'w') as f:
             f.write(dump_json(photos))
+        
+        # Save for write_sitemap()
+        set_slug2photos[slug] = photos
     
     with open('emptysquare_collection.json', 'w') as f:
         f.write(dump_json(emptysquare_collection))
+    
+    print('Writing sitemap')
+    write_sitemap('http://emptysquare.net/photography', emptysquare_collection['set'], set_slug2photos, 'sitemap.xml')
     
     print('Done')
 
