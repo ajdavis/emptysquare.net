@@ -76,13 +76,12 @@ function navigateToImageId(next_set_url) {
 	var location = document.location.href.split('#')[0] + (imageId+1) + '/';
 	var tweet_button = $('#tweet_button_container');
 	
-	tweet_button.html(
-	'<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jessejiryudavis" data-url="'
-	+ document.location.href
-	+ '" data-counturl="'
-	+ document.location.href
-	+ '">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>'
+	// Tweet button renders badly while it's being initialized; hide it
+	tweet_button.css('opacity', 0).animate({ opacity: 1 }, 200).html(
+	    '<a href="http://twitter.com/share?url=' + location + '" class="twitter-share-button" data-count="horizontal"'
+	    +'data-via="jessejiryudavis">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>'
 	);
+	
 	/** Update the URL for the Facebook Like button -- the like button ignores
 	 * everything after the #, so change the URL from something like
 	 * http://emptysquare.net/photography/fritz-christina/#1/

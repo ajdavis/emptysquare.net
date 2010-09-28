@@ -74,25 +74,35 @@ class SetHandler(tornado.web.RequestHandler):
             next_set_slug=next_set_slug
         )
 
-class PhotoForFacebookHandler(tornado.web.RequestHandler):
+class PhotoForBotHandler(tornado.web.RequestHandler):
     """
     emptysquare.js script sets the FB like button's URL to a hashless URL:
     if visitor is at http://emptysquare.net/photography/fritz-christina/#1/,
     script sets like button's URL to http://emptysquare.net/photography/fritz-christina/1/.
     
-    This handler responds to FB's request for that page, and to human's inbound
-    clicks from Facebook if a person clicks on someone's activity, i.e.
-    "Joe likes A. Jesse Jiryu Davis photography | Fritz & Christina on
+    Similarly, our Google sitemap includes URLs like /1/, not /#1/.
+    
+    This handler responds to FB's or Googlebot's request for that
+    page, and to human's inbound clicks from Google search results, or
+    from Facebook if a person clicks on someone's activity, i.e. "Joe
+    likes A. Jesse Jiryu Davis photography | Fritz & Christina on
     emptysquare.net."
     """
     def get(self, slug, photo_index):
-        if 'facebookexternalhit' in self.request.headers['User-Agent']:
+	is_fb = 'facebookexternalhit' in self.request.headers['User-Agent'].lower()
+	is_google = 'googlebot' in self.request.headers['User-Agent'].lower()
+	logging.info('User-Agent: %s, is_fb = %s, is_google = %s' % (
+	    repr(self.request.headers['User-Agent'].lower()),
+	    repr(is_fb), repr(is_google)
+	))
+	
+        if is_fb or is_google:
             # A visitor to my site has clicked "Like", so FB is scraping the
-            # hashless URL
+            # hashless URL.  Or Googlebot is following a URL in my sitemap.
             sets = emptysquare_collection()['set']
             current_set_index = index_for_set_slug(slug)
             return self.render(
-                "templates/photo_for_facebook.html",
+                "templates/photo_for_facebook.html" if is_fb else "templates/photo_for_google.html",
                 sets=sets,
                 current_slug=slug,
                 current_set_index=current_set_index,
@@ -140,7 +150,7 @@ application = tornado.web.Application([
     URLSpec(r'/photography/', PhotographyHandler, name='photography'),
     URLSpec(r'/photography/bio/', BioHandler, name='bio'),
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
-    URLSpec(r'/photography/(\S+)/(\d+)/', PhotoForFacebookHandler, name='photo_for_facebook'),
+    URLSpec(r'/photography/(\S+)/(\d+)/', PhotoForBotHandler, name='photo_for_bot'),
     URLSpec(r'/photography/(\S+)/', SetHandler, name='set'),
 ], **settings)
 
