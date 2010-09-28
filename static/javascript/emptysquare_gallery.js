@@ -1,10 +1,9 @@
 var imageId = 0;
 
-/* Clamp imageId to [0, photos.length), maybe navigate to next set
- * @param next_set_url:                Where to go after the final image in this set
+/* Set imageId from the current URL
  * @return:                            false if browser must navigate to a new URL  
  */
-function parse_imageId(next_set_url) {
+function parse_imageId() {
 	// URL is like http://emptysquare.net/photography/lower-east-side/#5/
 	// fragment from http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
 	var fragment = $.param.fragment();
@@ -15,10 +14,6 @@ function parse_imageId(next_set_url) {
 	} else {
 		imageId = 0;
 	}
-	
-	desired_fragment = '' + (imageId+1) + '/';
-	
-	return true;
 }
 
 /* Show the proper image after updating imageId.
@@ -27,7 +22,7 @@ function parse_imageId(next_set_url) {
 function navigateToImageId(next_set_url) {
 	var blank = '<img src="/static/images/blank.gif" height="9px" width="14px" />';
 	
-	if ( ! parse_imageId(next_set_url)) return;
+	parse_imageId();
 	
 	/**
 	 *  Show or hide the left and right arrows depending on current position in
@@ -108,6 +103,10 @@ function navigateToImageId(next_set_url) {
 		FB.XFBML.parse(document.getElementById('fb_like_button_container'));
 	}
 	
+	/** Update the Flickr URL
+	 */
+	$('#flickr_link_container a').attr('href', photos['photo'][imageId]['flickr_url']);
+	
 	// $("#tweet_button").attr(
 	// 	'href',
 	// 	'http://twitter.com/home?status=' + location
@@ -154,13 +153,14 @@ function preloadImage(preload_image_id, onload_function) {
 function onReady(set_name, photos, next_set_url) {
 	// Order is critical here
 	
+	// Uses jQuery-BBQ
 	// From http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/
 	$(window).bind('hashchange', function(e) {
 		navigateToImageId(next_set_url);
 	})
 	
 	// Set the global imageId
-	parse_imageId(next_set_url);
+	parse_imageId();
 	
 	// Load current image first to maximize speed, then load remaining photos
 	preloadImage(imageId, function() {

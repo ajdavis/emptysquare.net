@@ -21,6 +21,11 @@ $(document).ready(function(){
 </script>
 {% end %}
 {% block share %}
+	<div id="flickr_link_container">
+		<a href="{{ photos['photo'][0]['flickr_url'] }}" target="_blank">
+			<img src="{{ static_url( 'images/flickr_22x22.gif' )}}" height="22" width="22" alt="Flickr" />
+		</a>
+	</div>	
 	<div id="tweet_button_container"></div>	
 	<div id="fb_like_button_container"></div>
 {% end %}
@@ -30,7 +35,7 @@ $(document).ready(function(){
 			
 		</div>
 		<div id="nav">
-			<a class="navCtrl" id="navLeft"><img src="/static/images/blank.gif" height="9px" width="14px" /></a>&nbsp;&nbsp;&nbsp;<span id="navIndex">1</span>&nbsp;&nbsp;&nbsp;<a class="navCtrl" id="navRight"><img src="/static/images/goright.gif" height="9px" width="14px" /></a>
+			<a class="navCtrl" id="navLeft"><img src="{{ static_url('images/blank.gif') }}" height="9px" width="14px" /></a>&nbsp;&nbsp;&nbsp;<span id="navIndex">1</span>&nbsp;&nbsp;&nbsp;<a class="navCtrl" id="navRight"><img src="{{ static_url('images/goright.gif') }}" height="9px" width="14px" /></a>
 		</div>
 		<div id="imageContainer"><a/></div>
 		<div id="imageTitle"></div>

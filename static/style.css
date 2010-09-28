@@ -124,8 +124,20 @@ ul.set_list a {
 	float:right;
 }
 
-#tweet_button_container, #fb_like_button_container {
-	float:right;
+#tweet_button_container {
+	float:left;
+	width:110px;
+}
+
+#fb_like_button_container {
+	float:left;
+	width:225px;
+}
+
+#flickr_link_container {
+	float:left;
+	margin-right:8px;
+	width:22px;
 }
 
 #imageDescription {
