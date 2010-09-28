@@ -160,6 +160,10 @@ def main(flickr_username, collection_name):
         
         # Add image URLs to the photo info returned by photosets_getPhotos()
         for photo in photos['photo']:
+            photo['flickr_url'] = 'http://www.flickr.com/photos/%s/%s' % (
+                flickr_username, photo['id']
+            )
+            
             sizes = json_flickr.photos_getSizes(photo_id=photo['id'])['sizes']['size']
             
             try:
