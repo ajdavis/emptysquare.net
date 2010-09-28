@@ -82,11 +82,7 @@ function navigateToImageId(next_set_url) {
 	var tweet_button = $('#tweet_button_container');
 	
 	tweet_button.html(
-	'<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jessejiryudavis" data-url="'
-	+ document.location.href
-	+ '" data-counturl="'
-	+ document.location.href
-	+ '">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>'
+	'<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="jessejiryudavis">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>'
 	);
 	/** Update the URL for the Facebook Like button -- the like button ignores
 	 * everything after the #, so change the URL from something like

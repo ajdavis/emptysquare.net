@@ -68,9 +68,9 @@ def write_sitemap(prefix, sets, set_slug2photos, sitemap_filename):
     """
     Write a Google-compatible sitemap, like so:
     
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:image="http://www.sitemaps.org/schemas/sitemap-image/1.1"
-      xmlns:video="http://www.sitemaps.org/schemas/sitemap-video/1.1">
+    <urlset xmlns="http://www.google.com/schemas/sitemap/0.9"
+      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
       <url> 
         <loc>http://www.example.com/foo.html</loc> 
         <image:image>
@@ -100,10 +100,10 @@ def write_sitemap(prefix, sets, set_slug2photos, sitemap_filename):
         return node
     
     urlset = create_and_append(document, 'urlset')
-    urlset.setAttribute("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
-    urlset.setAttribute("xmlns:image", "http://www.sitemaps.org/schemas/sitemap-image/1.1")
+    urlset.setAttribute("xmlns", "http://www.google.com/schemas/sitemap/0.9")
+    urlset.setAttribute("xmlns:image", "http://www.google.com/schemas/sitemap-image/1.1")
     # Uncomment if for some reason you ever include a video link
-    #urlset.setAttribute("xmlns:video", "http://www.sitemaps.org/schemas/sitemap-video/1.1")
+    #urlset.setAttribute("xmlns:video", "http://www.google.com/schemas/sitemap-video/1.1")
     
     for _set in sets:
         url = create_and_append(urlset, 'url')
@@ -186,7 +186,7 @@ def main(flickr_username, collection_name):
         f.write(dump_json(emptysquare_collection))
     
     print('Writing sitemap')
-    write_sitemap('http://emptysquare.net/photography', emptysquare_collection['set'], set_slug2photos, 'sitemap.xml')
+    write_sitemap('http://emptysquare.net/photography', emptysquare_collection['set'], set_slug2photos, 'static/sitemap.xml')
     
     print('Done')
 
