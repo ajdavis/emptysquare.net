@@ -43,10 +43,6 @@ def emptysquare_set_photos(slug, rv={}):
     
     return rv[slug]
 
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.redirect(self.reverse_url('photography'))
-
 class PhotographyHandler(tornado.web.RequestHandler):
     def get(self):
         first_set = emptysquare_collection()['set'][0]
@@ -146,7 +142,6 @@ settings = {
 }
 
 application = tornado.web.Application([
-    URLSpec(r'/', MainHandler),
     URLSpec(r'/photography/', PhotographyHandler, name='photography'),
     URLSpec(r'/photography/bio/', BioHandler, name='bio'),
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
