@@ -2,6 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<title>A. Jesse Jiryu Davis photography | {{ sets[current_set_index]['title'] }}</title>
+	<script type="text/javascript">
+	    // Redirect non-bots
+	    document.location.href = "{{ reverse_url('set', sets[current_set_index]['slug']) }}#1/";
+	</script>
 </head>
 <body>
 	<h2>PROJECTS</h2>
