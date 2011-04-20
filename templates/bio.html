@@ -1,13 +1,19 @@
 {% extends 'emptysquare_common.html' %}
 {% block head %}
-        <script type="text/javascript">
+    <meta property="og:title" content="A. Jesse Jiryu Davis"/>
+    <meta property="og:type" content="gallery"/>
+    <meta property="og:site_name" content="A. Jesse Jiryu Davis Photography"/>
+    <meta property="og:image" content="{{ static_url('images/me.jpg') }}"/>
+    <meta property="fb:admins" content="703753184"/>
+    <meta name="description" content="A. Jesse Jiryu Davis's bio">
+    <script type="text/javascript">
 $(document).ready(function(){
     $('#imageContainer').click(function() {
 		document.location.href = document.location.href.replace(/(http:\/\/.*?)(\/.+\/)/, "$1" + "{{ reverse_url('contact') }}");
 		return false;
     });
 });
-        </script>
+    </script>
 {% end %}
 {% block body %}
 	<div id="imageTitle"></div>

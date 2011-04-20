@@ -1,4 +1,13 @@
 {% extends 'emptysquare_common.html' %}
+
+{% block head %}
+    <meta property="og:title" content="A. Jesse Jiryu Davis"/>
+    <meta property="og:type" content="gallery"/>
+    <meta property="og:site_name" content="A. Jesse Jiryu Davis Photography"/>
+    <meta property="fb:admins" content="703753184"/>
+    <meta name="description" content="A. Jesse Jiryu Davis's contact info">
+{% end %}
+
 {% block body %}
 	<div id="imageTitle"></div>
 	<div id="imageContainer" style="padding-left: 15px; padding-top:10px; text-align:left; cursor:inherit">
@@ -9,7 +18,6 @@
 		
 		<p class="bio">
 			<table class="contact">
-				<tr><td>c.</td><td><img src="/static/images/phone_number.gif"/></td></tr>
 				<tr><td>e.</td><td><a href="mailto:ajdavis@cs.oberlin.edu">ajdavis@cs.oberlin.edu</a></td></tr>
 				<tr><td>f.</td><td><a href="http://flickr.com/photos/emptysquare" target="_blank">flickr.com/photos/emptysquare</a></td></tr>
 				<tr><td>t.</td><td><a href="http://twitter.com/jessejiryudavis" target="_blank">twitter.com/jessejiryudavis</a></td></tr>
@@ -22,13 +30,12 @@
 		I built this site with
 		<a href="http://python.org/" target="_blank">Python</a>,
 		<a href="http://tornadoweb.org/" target="_blank">Tornado</a>,
-		<a href="http://mongodb.org/" target="_blank">MongoDB</a>,
 		<a href="http://jquery.org/" target="_blank">jQuery</a>,
 		<a href="http://benalman.com/projects/jquery-bbq-plugin/" target="_blank">jQuery BBQ</a>,
 		the <a href="http://stuvel.eu/projects/flickrapi" target="_blank">Python Flickr API</a>,
                 the <a href="http://developers.facebook.com/docs/reference/javascript/" target="_blank">Facebook Javascript SDK</a>,
 		<a href="http://www.google.com/analytics/" target="_blank">Google Analytics</a>,
-		and <a href="http://github.com/" target="_blank">github</a>.
+		and <a href="https://github.com/ajdavis/emptysquare.net" target="_blank">github</a>.
 		</p>
 	</div>
 {% end %}

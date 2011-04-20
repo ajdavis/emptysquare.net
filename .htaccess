@@ -1,0 +1,3 @@
+RewriteEngine On 
+RewriteRule ^/?$ /photography/homeless-shelters/ [redirect=permanent]
+
