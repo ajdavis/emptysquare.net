@@ -124,7 +124,7 @@ def write_sitemap(prefix, sets, set_slug2photos, sitemap_filename):
                 image_loc = create_and_append(image_image, 'image:loc')
                 image_loc.appendChild(document.createTextNode(source))
 
-    for page in ('bio', 'contact'):
+    for page in special_set_slugs:
         url = create_and_append(urlset, 'url')
 
         loc = create_and_append(url, 'loc')
@@ -201,7 +201,7 @@ def index_for_set_slug(slug):
 def emptysquare_set_photos(slug):
     return set_slug2photos[slug]
 
-special_set_slugs = ['bio', 'contact']
+special_set_slugs = ['exhibitions', 'bio', 'contact']
 
 class StaticHandler(tornado.web.RequestHandler):
     """
@@ -228,7 +228,17 @@ class SetHandler(StaticHandler):
             current_slug=slug,
             current_set_index=current_set_index,
             photos=emptysquare_set_photos(slug),
-            next_set_slug=next_set_slug
+            next_set_slug=next_set_slug,
+        )
+
+class ExhibitionsHandler(StaticHandler):
+    def get(self):
+        self.render(
+            "templates/exhibitions.html",
+            sets=emptysquare_collection['set'],
+            current_slug='exhibitions',
+            current_set_index=-1,
+            next_set_slug='bio'
         )
 
 class BioHandler(StaticHandler):
@@ -256,9 +266,11 @@ class ContactHandler(StaticHandler):
 # for uploading to a webserver
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
+    "autoescape": None,
 }
 
 application = tornado.web.Application([
+    URLSpec(r'/photography/exhibitions/', ExhibitionsHandler, name='exhibitions'),
     URLSpec(r'/photography/bio/', BioHandler, name='bio'),
     URLSpec(r'/photography/contact/', ContactHandler, name='contact'),
     URLSpec(r'/photography/(\S+)/', SetHandler, name='set'),
@@ -307,10 +319,7 @@ def generate_html():
     paths = [
         application.reverse_url('set', a_set['slug'])
         for a_set in emptysquare_collection['set']
-    ] + [
-        application.reverse_url('bio'),
-        application.reverse_url('contact'),
-    ]
+    ] + [ application.reverse_url(slug) for slug in special_set_slugs ]
 
     for path in paths:
         print(path)

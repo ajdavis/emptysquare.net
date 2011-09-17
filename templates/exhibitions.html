@@ -1,0 +1,34 @@
+{% extends 'emptysquare_common.html' %}
+{% block head %}
+    <meta property="og:title" content="A. Jesse Jiryu Davis"/>
+    <meta property="og:type" content="gallery"/>
+    <meta property="og:site_name" content="A. Jesse Jiryu Davis Photography"/>
+    <meta property="og:image" content="{{ static_url('images/me.jpg') }}"/>
+    <meta property="fb:admins" content="703753184"/>
+    <meta name="description" content="A. Jesse Jiryu Davis's photography exhibitions">
+{% end %}
+{% block body %}
+	<div id="imageTitle"></div>
+	<div id="imageContainer" style="padding-left: 15px; padding-top:10px; text-align:left">
+		<h1>Exhibitions</h1>
+        <h2>Future</h2>
+		<dl>
+            <dt><a href="http://www.rouge58.com/" target="_blank">Rouge 58</a></dt>
+            <dd>
+                <p>"Boys I Know", group show curated by Pebbles Van Peebles.</p>
+                <p>Sept 28 &mdash; Oct 19, 2011. Opening: 7pm.</p>
+                <p>555 Metropolitan Ave, Brooklyn NY.</p>
+            </dd>
+            <dt><a href="http://www.lowereastsideny.com/" target="_blank">Lower East Side BID</a></dt>
+            <dd>
+                <p>"Strangers", solo show.</p>
+                <p>Oct 20, 2011. Opening: 6pm.</p>
+                <p>Lower East Side Visitors Center.</p>
+                <p>54 Orchard St, New York.</p>
+            </dd>
+		</dl>
+		<div id="imageDescription" style="padding-top:25px; font-size:large">
+			<a href="{{ reverse_url('bio') }}">Biography</a>
+		</div>
+	</div>
+{% end %}

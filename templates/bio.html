@@ -9,7 +9,7 @@
     <script type="text/javascript">
 $(document).ready(function(){
     $('#imageContainer').click(function() {
-		document.location.href = document.location.href.replace(/(http:\/\/.*?)(\/.+\/)/, "$1" + "{{ reverse_url('contact') }}");
+		document.location.href = document.location.href.replace(/(http:\/\/.*?)(\/.+\/)/, "$1" + "{{ reverse_url(next_set_slug) }}");
 		return false;
     });
 });
