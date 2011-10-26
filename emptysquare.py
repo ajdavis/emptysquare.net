@@ -328,7 +328,9 @@ def generate_html():
         try: os.makedirs(dest_dir)
         except: pass
 
-        with open(os.path.join(dest_dir, 'index.html'), 'w+') as f:
+        fullpath = os.path.join(dest_dir, 'index.html')
+        print('Writing %s' % fullpath)
+        with open(fullpath, 'w+') as f:
             f.write(render_path(path))
 
 
