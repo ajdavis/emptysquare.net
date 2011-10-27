@@ -7,6 +7,7 @@ import os
 import re
 import simplejson
 import urllib
+import urllib2
 from xml.dom import minidom
 
 import flickrapi
@@ -181,9 +182,16 @@ def read_flickr_collection(flickr_username, collection_name):
                     if size['label'] == 'Medium 640'
                 ][0]
 
-                # Store the source URL in photo, so it'll get saved to the photo set's
-                # cache file
-                photo['source'] = medium_640_size['source']
+                # Download the photo -- Flickr's static URLs change occasionally, so we need to host the
+                # photo ourselves
+                img_path = 'photography/images'
+                if not os.path.exists(img_path):
+                    os.makedirs(img_path)
+                response = urllib2.urlopen(medium_640_size['source'])
+                fname = os.path.join(img_path, slugify(photo['title'] + '-' + photo['id']) + '.jpg')
+                with open(fname, 'wb+') as f:
+                    f.write(response.read())
+                photo['source'] = '/' + fname
             except IndexError:
                 raise Exception(
                     "Couldn't find 'Medium 640' size for photo %s" % repr(photo['title'])
