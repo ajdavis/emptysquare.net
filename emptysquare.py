@@ -5,7 +5,7 @@ from __future__ import print_function
 import argparse
 import os
 import re
-import simplejson
+import json
 import urllib
 import urllib2
 from xml.dom import minidom
@@ -39,14 +39,14 @@ def parse_flickr_json(json_string):
     except:
         raise Exception('JSON from Flickr in unexpected format: %s' % repr(json_string))
 
-    return simplejson.loads(middle_part)
+    return json.loads(middle_part)
 
 def dump_json(obj):
     """
     @param obj:     A native Python object, like dictionary or list
     @return:        A string, the object dumped as pretty, parsable JSON
     """
-    return simplejson.dumps(obj, sort_keys=True, indent='    ')
+    return json.dumps(obj, sort_keys=True, indent='    ')
 
 class JSONFlickr(object):
     def __init__(self, api_key):
