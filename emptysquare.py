@@ -232,6 +232,7 @@ class SetHandler(StaticHandler):
 
         self.render(
             "templates/set.html",
+            body_class='set',
             sets=sets,
             current_slug=slug,
             current_set_index=current_set_index,
@@ -243,6 +244,7 @@ class ExhibitionsHandler(StaticHandler):
     def get(self):
         self.render(
             "templates/exhibitions.html",
+            body_class='page',
             sets=emptysquare_collection['set'],
             current_slug='exhibitions',
             current_set_index=-1,
@@ -253,6 +255,7 @@ class BioHandler(StaticHandler):
     def get(self):
         self.render(
             "templates/bio.html",
+            body_class='page',
             sets=emptysquare_collection['set'],
             current_slug='bio',
             current_set_index=-1,
@@ -263,6 +266,7 @@ class ContactHandler(StaticHandler):
     def get(self):
         self.render(
             "templates/contact.html",
+            body_class='page',
             sets=emptysquare_collection['set'],
             current_slug='contact',
             current_set_index=-1,

@@ -6,14 +6,6 @@
     <meta property="og:image" content="{{ static_url('images/me.jpg') }}"/>
     <meta property="fb:admins" content="703753184"/>
     <meta name="description" content="A. Jesse Jiryu Davis's bio">
-    <script type="text/javascript">
-$(document).ready(function(){
-    $('#imageContainer').click(function() {
-		document.location.href = document.location.href.replace(/(http:\/\/.*?)(\/.+\/)/, "$1" + "{{ reverse_url(next_set_slug) }}");
-		return false;
-    });
-});
-    </script>
 {% end %}
 {% block body %}
 	<div id="imageTitle"></div>

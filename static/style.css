@@ -149,6 +149,9 @@ ul.set_list a {
 
 #imageContainer {
 	min-height: 640px;
+}
+
+body.set #imageContainer {
 	cursor:pointer;
 }
 
