@@ -138,7 +138,7 @@ def write_sitemap(prefix, sets, set_slug2photos, sitemap_filename):
     with open(sitemap_filename, 'w') as f:
         f.write(document.toprettyxml(indent="  ", encoding="UTF-8"))
 
-def read_flickr_collection(flickr_username, collection_name):
+def read_flickr_collection(flickr_username, collection_name, refresh):
     global emptysquare_collection, sets, set_slug2photos
 
     json_flickr = JSONFlickr(api_key)
@@ -187,10 +187,13 @@ def read_flickr_collection(flickr_username, collection_name):
                 img_path = 'photography/images'
                 if not os.path.exists(img_path):
                     os.makedirs(img_path)
-                response = urllib2.urlopen(medium_640_size['source'])
                 fname = os.path.join(img_path, slugify(photo['title'] + '-' + photo['id']) + '.jpg')
-                with open(fname, 'wb+') as f:
-                    f.write(response.read())
+                if refresh or not os.path.exists(fname):
+                    src = medium_640_size['source']
+                    print(src)
+                    response = urllib2.urlopen(src)
+                    with open(fname, 'wb+') as f:
+                        f.write(response.read())
                 photo['source'] = '/' + fname
             except IndexError:
                 raise Exception(
@@ -360,9 +363,16 @@ if __name__ == "__main__":
         help='The (case-sensitive) name of the Flickr collection to use',
     )
 
+    parser.add_argument(
+        '--refresh',
+        action='store_true',
+        default=False,
+        help='Re-download all images from Flickr',
+    )
+
     args = parser.parse_args()
 
-    read_flickr_collection(args.flickr_username, args.collection_name)
+    read_flickr_collection(args.flickr_username, args.collection_name, args.refresh)
 
     print('Writing sitemap')
     write_sitemap(
